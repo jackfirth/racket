@@ -5,7 +5,7 @@
          (struct-out keyword-prefixed-field))
 
 
-(require racket/contract
+(require racket/contract/base
          racket/pretty)
 
 
@@ -102,7 +102,11 @@
      (define (print-field p leading-space)
        (write-string "#:" p)
        (write-string (keyword->string keyword) p)
-       (define lead (make-string (+ (or leading-space 0) 2) #\space))
+       (define lead-space-count
+         (if leading-space
+             (+ leading-space 2)
+             1))
+       (define lead (make-string lead-space-count #\space))
        (when leading-space
          (pretty-print-newline p (pretty-print-columns)))
        (write-string lead p)
